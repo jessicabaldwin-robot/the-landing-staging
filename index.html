@@ -368,14 +368,26 @@
         entries.forEach(function (e) {
           if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
       els.forEach(function (el) { io.observe(el); });
-      // Anything already on screen at load comes in immediately.
-      requestAnimationFrame(function () {
-        els.forEach(function (el) {
-          if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('in-view');
-        });
-      });
+
+      // Safety net. A fast fling can outrun the observer, and content that
+      // stays invisible is far worse than content that animates late, so a
+      // cheap rAF-throttled sweep reveals anything that has reached the fold.
+      var ticking = false;
+      function sweep() {
+        ticking = false;
+        var vh = window.innerHeight;
+        for (var i = els.length - 1; i >= 0; i--) {
+          var el = els[i];
+          if (el.classList.contains('in-view')) continue;
+          if (el.getBoundingClientRect().top < vh * 0.92) el.classList.add('in-view');
+        }
+      }
+      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(sweep); } }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      requestAnimationFrame(sweep);
     }());
   </script>
 

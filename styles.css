@@ -12,16 +12,16 @@
   --color-primary: #173152;
   --color-primary-dark: #0F2239;
   --color-primary-light: #E8EDF3;
-  --color-secondary: #F5F0E8;
+  --color-secondary: #EEF2F4;
   --color-accent: #C97E4B;
-  --color-accent-dark: #A9642F;
+  --color-accent-dark: #A05D2B;   /* label text: clears AA on white and on the tint */
 
   /* Neutrals */
   --color-text: #1B2431;
   --color-text-muted: #4E5A69;
-  --color-bg: #FDFBF6;
-  --color-surface: #F5F0E8;
-  --color-border: #E3DCCE;
+  --color-bg: #FFFFFF;
+  --color-surface: #EEF2F4;   /* Sterling light blue-grey */
+  --color-border: #DCE3E7;
   --color-footer-bg: #173152;
   --color-footer-text: #D7DFE9;
 
